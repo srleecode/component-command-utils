@@ -1,22 +1,23 @@
 {
   "name": "@srleecode/component-command-utils",
-  "version": "1.0.5",
+  "version": "1.0.9",
   "description": "Component command utilities",
   "author": "Scott Lee",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "npm-publish": "npm run build && cp package.json dist && cp README.md dist && npm publish --access=public"
+    "build": "rimraf dist && tsc",
+    "npm-publish": "npm run build && npm publish --access=public"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "devDependencies": {
     "@types/node": "^14.14.14",
     "cp": "^0.2.0",
     "cypress": "^6.1.0",
+    "rimraf": "^3.0.2",
     "typescript": "^4.1.3"
   },
   "dependencies": {},

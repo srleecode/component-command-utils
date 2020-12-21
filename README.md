@@ -31,10 +31,9 @@ class Column {
 
     get title(): Cypress.Chainable<string> {
         return cy
-            .wrap(this.element)
+            .wrap(this.element, { log: false })
             .invoke('text')
             .then(text => text.trim());
-
     }
 }
 
@@ -42,11 +41,11 @@ export class SharedTable {
     constructor(public element: JQuery) {}
 
     getColumn(index: number): Cypress.Chainable<Column> {
-        return find(this, { index: index - 1}, 'th').create(Column);
+        return find(this, { index: index - 1}, Column, 'th');
     }
 }
 
-Cypress.Commands.add('sharedTable', (selector?: SelectorOptions) => get(selector, 'shared-table').create(SharedTable));
+Cypress.Commands.add('sharedTable', (selector?: SelectorOptions) => get(selector, SharedTable, 'shared-table'));
 ```
 
 It is often the case that you want to select not just a component, but a particular instance of that component. Instance based selection can be accomplished by passing a SelectorOptions object to the component command. Some examples are: 
@@ -72,6 +71,13 @@ interface SelectorOptions {
  - map - returns the result of a component command function. Its usage is similar to the 'invoke' command, but allows the usage of cypress commands in the component command function
  - tap - executes a component commands function and returns the calling component command. This allows the chaining of actions on the same component command.
  - create - creates a comopnent command from a given JQuery element. This command is normally just used internally in component commands to create sub elements of the component as component commands. For example, a column in a table
+
+#### Methods
+
+ - get - used to create component commands without any base element, e.g. a table
+ - find - used to create component commands using a base element, e.g. cell in a table
+ - findElement - used to select a jquery element
+ - findAll - used to crreate multiple component commands, e.g. rows in a table 
 
 ## Points to note
 

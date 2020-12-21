@@ -5,8 +5,9 @@ export class ComponentClass {
   constructor(public element: JQuery) {}
 }
 
-export const isComponentClass = (arg: ComponentClass): arg is ComponentClass =>
-  (arg as ComponentClass).element !== undefined;
+export const isComponentClass = (
+  arg: ComponentClass | JQuery
+): arg is ComponentClass => (arg as ComponentClass).element !== undefined;
 
 export const create = <T extends ComponentClass>(
   subject: HTMLElement | JQuery,
