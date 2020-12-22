@@ -93,7 +93,7 @@ Cypress.Commands.add(
     if (subject[method]) {
       return cy
         .wrap(subject, { log: false })
-        [method](...args)
+        .then((instance) => instance[method](...args))
         .then(() => subject);
     }
     throw new Error(`Cannot find ${method} in subject`);

@@ -23,7 +23,7 @@ export const get = <T extends ComponentClass>(
 export const findElement = (
   component: ComponentClass | JQuery,
   selector: SelectorOptions = {},
-  defaultQuery: string
+  defaultQuery?: string
 ): Cypress.Chainable<JQuery> => {
   const query = getQuery(selector, defaultQuery);
   const element = isComponentClass(component) ? component.element : component;
@@ -35,7 +35,7 @@ export const find = <T extends ComponentClass>(
   component: ComponentClass | JQuery,
   selector: SelectorOptions = {},
   classToCreate: new (element: JQuery) => T,
-  defaultQuery: string,
+  defaultQuery?: string,
   isLogged = false
 ): Cypress.Chainable<T> =>
   findElement(component, selector, defaultQuery).then((element) => {
@@ -57,7 +57,7 @@ export const findAll = <T extends ComponentClass>(
   component: ComponentClass | JQuery,
   selector: SelectorOptions = {},
   classToCreate: new (element: JQuery) => T,
-  defaultQuery: string,
+  defaultQuery?: string,
   isLogged = false
 ): Cypress.Chainable<T[]> =>
   findElement(component, selector, defaultQuery).then((element) => {
