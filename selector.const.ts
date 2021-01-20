@@ -7,7 +7,15 @@ export const get = <T extends ComponentClass>(
   defaultQuery: string
 ): Cypress.Chainable<T> => {
   const query = getQuery(selector, defaultQuery);
-  const baseItem = cy.get(query, { log: false });
+  let baseItem: Cypress.Chainable<JQuery>;
+  if (selector.root) {
+    const element = isComponentClass(selector.root)
+      ? selector.root.element
+      : selector.root;
+    baseItem = cy.wrap(element, { log: false }).find(query, { log: false });
+  } else {
+    baseItem = cy.get(query, { log: false });
+  }
   return getSelectedItem(baseItem, selector).then((element) => {
     Cypress.log({
       $el: element,
