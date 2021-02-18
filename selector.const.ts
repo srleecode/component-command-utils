@@ -87,6 +87,19 @@ export const findAll = <T extends ComponentClass>(
     return undefined;
   });
 
+export const getText = (
+  component: ComponentClass | JQuery,
+  selector: SelectorOptions = {},
+  invokeArguments: string | string[] = "text"
+) => {
+  let element = isComponentClass(component)
+    ? findElement(component, selector)
+    : cy.wrap(component);
+  return typeof invokeArguments === "string"
+    ? element.invoke(invokeArguments)
+    : element.invoke(...(invokeArguments as [string, string]));
+};
+
 const getQuery = (selector: SelectorOptions, defaultQuery: string): string => {
   const { dataCy, css } = selector;
   if (dataCy) {

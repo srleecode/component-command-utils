@@ -28,9 +28,6 @@ declare global {
         method: K,
         ...arrgs: any[]
       ): Chainable<Subject>;
-      create<T extends ComponentClass>(
-        classToCreate: new (element: JQuery) => T
-      ): Chainable<T>;
     }
   }
 }
@@ -97,22 +94,5 @@ Cypress.Commands.add(
         .then(() => subject);
     }
     throw new Error(`Cannot find ${method} in subject`);
-  }
-);
-
-/**
- * Custom command to create a comopnent command from a given JQuery element.
- * This command is normally just used internally in component commands to create sub elements of the component as component commands.
- */
-Cypress.Commands.add(
-  "create",
-  { prevSubject: true },
-  (subject, classToCreate, ...args) => {
-    if (isComponentClass(subject)) {
-      return cy
-        .wrap(subject.element, { log: false })
-        .then((e) => create(e, classToCreate));
-    }
-    return cy.wrap(create(subject, classToCreate), { log: false });
   }
 );
