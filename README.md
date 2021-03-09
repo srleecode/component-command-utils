@@ -95,7 +95,10 @@ All interaction with a component command should be done using its api. This mean
 
 Falling back to JQuery might be needed in some cases. For example, 
  - getting array of the values in all the chips for a chips component. Trying to do this with just cypress will end up with Chainable<Chainable<string>[]>, so falling back to jquery in this instance is needed.
- - checking that a component does not exist. This scenario will fail in the component command selection, so for checking for non existence you need to fall back to using standard cypress.
+
+### Checking an element doesn't exist
+
+To check that an element doesn't exist you can use the selector options getElement property in the get function. This will get the element instead of trying to convert it into a component which would fail as the element doesn't exist.
 
 ### Don't put everything in the component command
 

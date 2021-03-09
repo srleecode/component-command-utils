@@ -5,7 +5,7 @@ export const get = <T extends ComponentClass>(
   selector: SelectorOptions = {},
   classToCreate: new (element: JQuery) => T,
   defaultQuery: string
-): Cypress.Chainable<T> => {
+): Cypress.Chainable<T | JQuery> => {
   const query = getQuery(selector, defaultQuery);
   let baseItem: Cypress.Chainable<JQuery>;
   if (selector.root) {
@@ -15,6 +15,9 @@ export const get = <T extends ComponentClass>(
     baseItem = cy.wrap(element, { log: false }).find(query, { log: false });
   } else {
     baseItem = cy.get(query, { log: false });
+  }
+  if (selector.getElement) {
+    return getSelectedItem(baseItem, selector);
   }
   return getSelectedItem(baseItem, selector).then((element) => {
     Cypress.log({
