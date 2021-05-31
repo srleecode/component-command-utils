@@ -93,14 +93,20 @@ export const findAll = <T extends ComponentClass>(
 export const getText = (
   component: ComponentClass | JQuery,
   selector: SelectorOptions = {},
-  invokeArguments: string | string[] = "text"
-) => {
+  invokeArguments: string | string[] = "text",
+  trim: boolean = false
+): Cypress.Chainable<string> => {
   let element = isComponentClass(component)
     ? findElement(component, selector)
     : cy.wrap(component);
-  return typeof invokeArguments === "string"
-    ? element.invoke(invokeArguments)
-    : element.invoke(...(invokeArguments as [string, string]));
+  const value: Cypress.Chainable<string> =
+    typeof invokeArguments === "string"
+      ? element.invoke(invokeArguments)
+      : element.invoke(...(invokeArguments as [string, string]));
+  if (trim) {
+    return value.then((text) => text.trim());
+  }
+  return value;
 };
 
 const getQuery = (selector: SelectorOptions, defaultQuery: string): string => {
