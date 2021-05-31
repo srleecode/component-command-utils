@@ -1,4 +1,5 @@
 import { ComponentClass, isComponentClass } from "./create.const";
+import { GetTextOptions } from "./model/get-text-options.model";
 import { SelectorOptions } from "./model/selector-options.model";
 
 export const get = <T extends ComponentClass>(
@@ -93,9 +94,12 @@ export const findAll = <T extends ComponentClass>(
 export const getText = (
   component: ComponentClass | JQuery,
   selector: SelectorOptions = {},
-  invokeArguments: string | string[] = "text",
-  trim: boolean = false
+  options?: GetTextOptions
 ): Cypress.Chainable<string> => {
+  let invokeArguments: string | string[] = "text";
+  if (options && options.invokeArguments) {
+    invokeArguments = options.invokeArguments;
+  }
   let element = isComponentClass(component)
     ? findElement(component, selector)
     : cy.wrap(component);
@@ -103,7 +107,7 @@ export const getText = (
     typeof invokeArguments === "string"
       ? element.invoke(invokeArguments)
       : element.invoke(...(invokeArguments as [string, string]));
-  if (trim) {
+  if (options.trim) {
     return value.then((text) => text.trim());
   }
   return value;
