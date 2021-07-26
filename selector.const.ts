@@ -39,7 +39,9 @@ export const findElement = (
 ): Cypress.Chainable<JQuery> => {
   const query = getQuery(selector, defaultQuery);
   const element = isComponentClass(component) ? component.element : component;
-  const baseItem = cy.wrap(element, { log: false }).find(query, { log: false });
+  const baseItem = !!query
+    ? cy.wrap(element, { log: false }).find(query, { log: false })
+    : cy.wrap(element, { log: false });
   return getSelectedItem(baseItem, selector);
 };
 
