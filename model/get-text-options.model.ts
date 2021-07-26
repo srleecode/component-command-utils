@@ -1,4 +1,4 @@
 export interface GetTextOptions {
-  invokeArguments: string | string[];
-  trim: boolean;
+  invokeArguments?: string | string[];
+  trim?: boolean;
 }

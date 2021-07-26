@@ -107,7 +107,7 @@ export const getText = (
     typeof invokeArguments === "string"
       ? element.invoke(invokeArguments)
       : element.invoke(...(invokeArguments as [string, string]));
-  if (options.trim) {
+  if (options && options.trim) {
     return value.then((text) => text.trim());
   }
   return value;
